@@ -1,6 +1,8 @@
 package com.example.cont.demo.Controller;
 
 import com.example.cont.demo.apipath.ApiPath;
+import com.example.cont.demo.dto.UserRequest;
+import com.example.cont.demo.dto.UserResponse;
 import com.example.cont.demo.model.User;
 import com.example.cont.demo.service.IUserService;
 import org.springframework.http.HttpStatus;
@@ -21,13 +23,13 @@ public class UserControllerImpl implements IUserController{
 
     @Override
     @GetMapping(ApiPath.GET_ALL)
-    public ResponseEntity<List<User>> getAllUsers(){
+    public ResponseEntity<List<UserResponse>> getAllUsers(){
         return ResponseEntity.ok().body(userService.getAllUsers());
     }
 
     @PostMapping(ApiPath.CREATE_USER)
     @Override
-    public ResponseEntity<User> addUser(@RequestBody User newUser) {
+    public ResponseEntity<UserResponse> createUser(@RequestBody UserRequest newUser) {
         return ResponseEntity.status(HttpStatus.CREATED).body(userService.addUser(newUser));
     }
 
@@ -39,13 +41,13 @@ public class UserControllerImpl implements IUserController{
 
     @GetMapping(ApiPath.FIND_BY_ID)
     @Override
-    public ResponseEntity<User> userFindById(@PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<UserResponse> userFindById(@PathVariable("id") Integer id) throws Exception{
         return ResponseEntity.ok().body(userService.userFindById(id));
     }
 
     @PutMapping(ApiPath.UPDATE_BY_ID)
     @Override
-    public ResponseEntity<User> updateUserById(@RequestBody User user, @PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<UserResponse> updateUserById(@RequestBody UserRequest user, @PathVariable("id") Integer id) throws Exception{
         return ResponseEntity.ok().body(userService.updateUserById(user, id));
     }
 

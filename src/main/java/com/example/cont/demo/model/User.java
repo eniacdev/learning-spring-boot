@@ -7,6 +7,9 @@ import lombok.Generated;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Audited;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
 @Table(name = "test")
 @Entity
 @Data
@@ -19,4 +22,7 @@ public class User {
     private Integer id;
     private String name;
     private String lastname;
+    private String password;
+    private LocalDateTime createdTime;
+
 }
