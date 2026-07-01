@@ -16,12 +16,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class UserServiceImpl implements IUserService{
+public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
+    private final UserMapper mapper;
 
-    public UserServiceImpl(IUserRepository userRepository){
+    public UserServiceImpl(IUserRepository userRepository, UserMapper mapper){
         this.userRepository = userRepository;
+        this.mapper = mapper;
     }
 
     @Override
@@ -29,7 +31,7 @@ public class UserServiceImpl implements IUserService{
         List<User> dbUserList = userRepository.findAll();
         List<UserResponse> userDtoList = new ArrayList<>();
         for (User user : dbUserList){
-            UserResponse userResponse = UserMapper.toResponse(user);
+            UserResponse userResponse = mapper.toResponse(user);
             userDtoList.add(userResponse);
         }
         return userDtoList;
@@ -37,10 +39,10 @@ public class UserServiceImpl implements IUserService{
 
     @Override
     public UserResponse addUser(UserRequest userRequest) {
-        User newUser = UserMapper.toEntity(userRequest);
+        User newUser = mapper.toEntity(userRequest);
         newUser.setCreatedTime(LocalDateTime.now());
         userRepository.save(newUser);
-        return UserMapper.toResponse(newUser);
+        return mapper.toResponse(newUser);
     }
 
     @Override
@@ -58,7 +60,7 @@ public class UserServiceImpl implements IUserService{
         Optional<User> optional = userRepository.findById(id);
         if(optional.isPresent()){
             User user = optional.get();
-            return UserMapper.toResponse(user);
+            return mapper.toResponse(user);
         }
         throw new Exception("istenilen bir id değerine bağlı kullanıcı bulunamadı.");
     }
@@ -67,8 +69,8 @@ public class UserServiceImpl implements IUserService{
     public UserResponse updateUserById(UserRequest newUser, Integer id) throws Exception{
         Optional<User> dbUser = userRepository.findById(id);
         if (dbUser.isPresent()){
-            UserMapper.updateEntity(newUser, dbUser.get());
-            return UserMapper.toResponse(userRepository.save(dbUser.get()));
+            mapper.updateEntity(newUser, dbUser.get());
+            return mapper.toResponse(userRepository.save(dbUser.get()));
         }
         throw new Exception("kullanıcı bulunamadı");
     }
