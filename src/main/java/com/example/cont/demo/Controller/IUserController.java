@@ -12,6 +12,8 @@ public interface IUserController {
     public ResponseEntity<List<UserResponse>> getAllUsers();
     public ResponseEntity<UserResponse> createUser(UserRequest newUser);
     public ResponseEntity<Boolean> deleteUserById(Integer id);
-    public ResponseEntity<UserResponse> userFindById(Integer id) throws Exception;
-    public ResponseEntity<UserResponse> updateUserById(UserRequest user, Integer id) throws Exception;
+    public ResponseEntity<UserResponse> userFindById(Integer id);
+    public ResponseEntity<UserResponse> updateUserById(UserRequest user, Integer id);
+    public ResponseEntity<List<UserResponse>> findByUserName(String name);
+    public ResponseEntity<List<UserResponse>> findByIdGreaterThan(Integer id);
 }

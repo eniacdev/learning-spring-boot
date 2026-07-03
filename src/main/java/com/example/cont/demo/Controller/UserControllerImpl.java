@@ -3,7 +3,6 @@ package com.example.cont.demo.Controller;
 import com.example.cont.demo.apipath.ApiPath;
 import com.example.cont.demo.dto.UserRequest;
 import com.example.cont.demo.dto.UserResponse;
-import com.example.cont.demo.model.User;
 import com.example.cont.demo.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -41,14 +40,27 @@ public class UserControllerImpl implements IUserController{
 
     @GetMapping(ApiPath.FIND_BY_ID)
     @Override
-    public ResponseEntity<UserResponse> userFindById(@PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<UserResponse> userFindById(@PathVariable("id") Integer id){
         return ResponseEntity.ok().body(userService.userFindById(id));
     }
 
     @PutMapping(ApiPath.UPDATE_BY_ID)
     @Override
-    public ResponseEntity<UserResponse> updateUserById(@RequestBody UserRequest user, @PathVariable("id") Integer id) throws Exception{
+    public ResponseEntity<UserResponse> updateUserById(@RequestBody UserRequest user, @PathVariable("id") Integer id){
         return ResponseEntity.ok().body(userService.updateUserById(user, id));
     }
+
+    @GetMapping(ApiPath.FIND_BY_NAME)
+    @Override
+    public ResponseEntity<List<UserResponse>> findByUserName(@PathVariable("name") String name) {
+        return ResponseEntity.ok().body(userService.findByUserName(name));
+    }
+
+    @GetMapping(ApiPath.FIND_BY_ID_GREATER_THAN)
+    @Override
+    public ResponseEntity<List<UserResponse>> findByIdGreaterThan(@PathVariable("id") Integer id) {
+        return ResponseEntity.ok().body(userService.findByIdGreaterThan(id));
+    }
+
 
 }

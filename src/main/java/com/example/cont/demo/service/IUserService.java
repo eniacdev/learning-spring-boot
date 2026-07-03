@@ -11,6 +11,8 @@ public interface IUserService {
     public List<UserResponse> getAllUsers();
     public UserResponse addUser(UserRequest newUser);
     public Boolean deleteUser(Integer id);
-    public UserResponse userFindById(Integer id) throws Exception;
-    public UserResponse updateUserById(UserRequest user, Integer id) throws Exception;
+    public UserResponse userFindById(Integer id);
+    public UserResponse updateUserById(UserRequest user, Integer id);
+    public List<UserResponse> findByUserName(String name);
+    List<UserResponse> findByIdGreaterThan(Integer id);
 }

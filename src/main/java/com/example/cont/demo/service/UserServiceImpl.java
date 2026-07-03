@@ -56,22 +56,56 @@ public class UserServiceImpl implements IUserService {
     }
 
     @Override
-    public UserResponse userFindById(Integer id) throws Exception{
+    public UserResponse userFindById(Integer id) {
         Optional<User> optional = userRepository.findById(id);
         if(optional.isPresent()){
             User user = optional.get();
             return mapper.toResponse(user);
         }
-        throw new Exception("istenilen bir id değerine bağlı kullanıcı bulunamadı.");
+        throw new RuntimeException("No users were found associated with the requested id value.");
     }
 
     @Override
-    public UserResponse updateUserById(UserRequest newUser, Integer id) throws Exception{
+    public UserResponse updateUserById(UserRequest newUser, Integer id){
         Optional<User> dbUser = userRepository.findById(id);
         if (dbUser.isPresent()){
             mapper.updateEntity(newUser, dbUser.get());
             return mapper.toResponse(userRepository.save(dbUser.get()));
         }
-        throw new Exception("kullanıcı bulunamadı");
+        throw new RuntimeException("User not found.");
+    }
+
+    @Override
+    public List<UserResponse> findByUserName(String name){
+        List<User> userList = userRepository.findByName(name);
+        if (userList.isEmpty()) {
+            throw new RuntimeException("No user was found with the requested name.: " + name);
+        }
+
+        List<UserResponse> dtoList = new ArrayList<>();
+        for (User user : userList){
+            UserResponse userDto = mapper.toResponse(user);
+            dtoList.add(userDto);
+        }
+
+        return dtoList;
+    }
+
+    // same-same, but different... but still same!
+    // findByUserName and findByIdGreaterThan methods is same.
+
+    @Override
+    public List<UserResponse> findByIdGreaterThan(Integer id){
+        List<User> userList = userRepository.findByIdGreaterThan(id);
+        if (userList.isEmpty()) {
+            throw new RuntimeException("No users of the desired value were found.: " + id);
+        }
+
+        List<UserResponse> dtoList = new ArrayList<>();
+        for (User user : userList){
+            UserResponse userDto = mapper.toResponse(user);
+            dtoList.add(userDto);
+        }
+        return dtoList;
     }
 }
