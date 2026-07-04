@@ -6,9 +6,12 @@ import com.example.cont.demo.model.User;
 import org.mapstruct.Mapper;
 import org.mapstruct.MappingTarget;
 
+import java.util.List;
+
 @Mapper(componentModel = "spring")
 public interface UserMapper {
     User toEntity(UserRequest request);
     UserResponse toResponse(User user);
+    UserResponse toResponseList(User user);
     void updateEntity(UserRequest request, @MappingTarget User user);
 }

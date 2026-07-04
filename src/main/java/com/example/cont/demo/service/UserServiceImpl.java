@@ -31,8 +31,7 @@ public class UserServiceImpl implements IUserService {
         List<User> dbUserList = userRepository.findAll();
         List<UserResponse> userDtoList = new ArrayList<>();
         for (User user : dbUserList){
-            UserResponse userResponse = mapper.toResponse(user);
-            userDtoList.add(userResponse);
+            userDtoList.add(mapper.toResponse(user));
         }
         return userDtoList;
     }
@@ -81,18 +80,12 @@ public class UserServiceImpl implements IUserService {
         if (userList.isEmpty()) {
             throw new RuntimeException("No user was found with the requested name.: " + name);
         }
-
-        List<UserResponse> dtoList = new ArrayList<>();
+        List<UserResponse> userDtoList = new ArrayList<>();
         for (User user : userList){
-            UserResponse userDto = mapper.toResponse(user);
-            dtoList.add(userDto);
+            userDtoList.add(mapper.toResponseList(user));
         }
-
-        return dtoList;
+        return userDtoList;
     }
-
-    // same-same, but different... but still same!
-    // findByUserName and findByIdGreaterThan methods is same.
 
     @Override
     public List<UserResponse> findByIdGreaterThan(Integer id){
@@ -100,12 +93,12 @@ public class UserServiceImpl implements IUserService {
         if (userList.isEmpty()) {
             throw new RuntimeException("No users of the desired value were found.: " + id);
         }
-
-        List<UserResponse> dtoList = new ArrayList<>();
+        List<UserResponse> userDtoList = new ArrayList<>();
         for (User user : userList){
-            UserResponse userDto = mapper.toResponse(user);
-            dtoList.add(userDto);
+            userDtoList.add(mapper.toResponseList(user));
         }
-        return dtoList;
+        return userDtoList;
     }
+
+
 }
