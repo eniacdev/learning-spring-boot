@@ -14,5 +14,6 @@ public interface IUserRepository extends JpaRepository<User, Integer> {
 
     List<User> findByName(String name);
     List<User> findByIdGreaterThan(Integer id);
+    List<User> findAllByOrderByName();
 
 }

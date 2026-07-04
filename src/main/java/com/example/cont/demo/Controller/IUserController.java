@@ -16,4 +16,5 @@ public interface IUserController {
     public ResponseEntity<UserResponse> updateUserById(UserRequest user, Integer id);
     public ResponseEntity<List<UserResponse>> findByUserName(String name);
     public ResponseEntity<List<UserResponse>> findByIdGreaterThan(Integer id);
+    public ResponseEntity<List<UserResponse>> findByOrderByName();
 }

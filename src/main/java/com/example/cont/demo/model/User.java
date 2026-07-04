@@ -23,4 +23,9 @@ public class User {
     private String password;
     private LocalDateTime createdTime;
 
+    @PrePersist
+    public void prePersist(){
+        LocalDateTime now = LocalDateTime.now();
+        createdTime = now;
+    }
 }

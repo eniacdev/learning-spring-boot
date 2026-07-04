@@ -3,6 +3,7 @@ package com.example.cont.demo.Controller;
 import com.example.cont.demo.apipath.ApiPath;
 import com.example.cont.demo.dto.UserRequest;
 import com.example.cont.demo.dto.UserResponse;
+import com.example.cont.demo.model.User;
 import com.example.cont.demo.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -62,5 +63,10 @@ public class UserControllerImpl implements IUserController{
         return ResponseEntity.ok().body(userService.findByIdGreaterThan(id));
     }
 
+    @GetMapping(ApiPath.FIND_ALL_BY_ORDER_BY_NAME)
+    @Override
+    public ResponseEntity<List<UserResponse>> findByOrderByName() {
+        return ResponseEntity.ok().body(userService.findByOrderByName());
+    }
 
 }

@@ -14,5 +14,6 @@ public interface IUserService {
     public UserResponse userFindById(Integer id);
     public UserResponse updateUserById(UserRequest user, Integer id);
     public List<UserResponse> findByUserName(String name);
-    List<UserResponse> findByIdGreaterThan(Integer id);
+    public List<UserResponse> findByIdGreaterThan(Integer id);
+    public List<UserResponse> findByOrderByName();
 }

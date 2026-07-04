@@ -39,7 +39,6 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserResponse addUser(UserRequest userRequest) {
         User newUser = mapper.toEntity(userRequest);
-        newUser.setCreatedTime(LocalDateTime.now());
         userRepository.save(newUser);
         return mapper.toResponse(newUser);
     }
@@ -93,6 +92,17 @@ public class UserServiceImpl implements IUserService {
         if (userList.isEmpty()) {
             throw new RuntimeException("No users of the desired value were found.: " + id);
         }
+        List<UserResponse> userDtoList = new ArrayList<>();
+        for (User user : userList){
+            userDtoList.add(mapper.toResponseList(user));
+        }
+        return userDtoList;
+    }
+
+    @Override
+    public List<UserResponse> findByOrderByName() {
+
+        List<User> userList = userRepository.findAllByOrderByName();
         List<UserResponse> userDtoList = new ArrayList<>();
         for (User user : userList){
             userDtoList.add(mapper.toResponseList(user));
