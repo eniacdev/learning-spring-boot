@@ -2,6 +2,7 @@ package com.example.cont.demo.model;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 import org.hibernate.annotations.Audited;
 
 import java.time.LocalDate;
@@ -9,11 +10,11 @@ import java.time.LocalDateTime;
 
 @Table(name = "test")
 @Entity
-@Builder
+@SuperBuilder
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class User {
+public class User extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,11 +22,5 @@ public class User {
     private String name;
     private String lastname;
     private String password;
-    private LocalDateTime createdTime;
 
-    @PrePersist
-    public void prePersist(){
-        LocalDateTime now = LocalDateTime.now();
-        createdTime = now;
-    }
 }
