@@ -26,14 +26,21 @@ public class UserServiceImpl implements IUserService {
         this.mapper = mapper;
     }
 
+    private List<UserResponse> responseToList(List<User> userList){
+        List<UserResponse> userDtoList = new ArrayList<>();
+        if (userList.isEmpty()){
+            throw new RuntimeException("The list must not be empty.");
+        }
+        for (User user : userList){
+            userDtoList.add(mapper.toResponseList(user));
+        }
+        return userDtoList;
+    }
+
     @Override
     public List<UserResponse> getAllUsers() {
         List<User> dbUserList = userRepository.findAll();
-        List<UserResponse> userDtoList = new ArrayList<>();
-        for (User user : dbUserList){
-            userDtoList.add(mapper.toResponse(user));
-        }
-        return userDtoList;
+        return responseToList(dbUserList);
     }
 
     @Override
@@ -76,38 +83,19 @@ public class UserServiceImpl implements IUserService {
     @Override
     public List<UserResponse> findByUserName(String name){
         List<User> userList = userRepository.findByName(name);
-        if (userList.isEmpty()) {
-            throw new RuntimeException("No user was found with the requested name.: " + name);
-        }
-        List<UserResponse> userDtoList = new ArrayList<>();
-        for (User user : userList){
-            userDtoList.add(mapper.toResponseList(user));
-        }
-        return userDtoList;
+        return responseToList(userList);
     }
 
     @Override
     public List<UserResponse> findByIdGreaterThan(Integer id){
         List<User> userList = userRepository.findByIdGreaterThan(id);
-        if (userList.isEmpty()) {
-            throw new RuntimeException("No users of the desired value were found.: " + id);
-        }
-        List<UserResponse> userDtoList = new ArrayList<>();
-        for (User user : userList){
-            userDtoList.add(mapper.toResponseList(user));
-        }
-        return userDtoList;
+        return responseToList(userList);
     }
 
     @Override
     public List<UserResponse> findByOrderByName() {
-
         List<User> userList = userRepository.findAllByOrderByName();
-        List<UserResponse> userDtoList = new ArrayList<>();
-        for (User user : userList){
-            userDtoList.add(mapper.toResponseList(user));
-        }
-        return userDtoList;
+        return responseToList(userList);
     }
 
 
