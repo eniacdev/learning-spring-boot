@@ -18,8 +18,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-@MappedSuperclass
 @SuperBuilder
+@MappedSuperclass
 @EntityListeners(AuditingEntityListener.class)
 public class BaseEntity {
 
@@ -33,7 +33,7 @@ public class BaseEntity {
 
     @LastModifiedDate
     @Column(insertable = false)
-    private LocalDateTime lastModifiedDate;
+    private LocalDateTime lastModifiedTime;
 
     @LastModifiedBy
     @Column(insertable = false)

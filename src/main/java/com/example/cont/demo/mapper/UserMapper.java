@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 
 import java.util.List;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = UserProfileMapper.class)
 public interface UserMapper {
     User toEntity(UserRequest request);
     UserResponse toResponse(User user);

@@ -1,17 +1,20 @@
 package com.example.cont.demo.dto;
 
+import com.example.cont.demo.model.UserProfile;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class UserRequest {
 
-    private String name;
-    private String lastname;
+
+    private String userName;
     private String password;
+    private String email;
+    private UserProfileRequest userProfile;
 }

@@ -5,12 +5,8 @@ import com.example.cont.demo.dto.UserResponse;
 import com.example.cont.demo.mapper.UserMapper;
 import com.example.cont.demo.model.User;
 import com.example.cont.demo.repository.IUserRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -46,6 +42,9 @@ public class UserServiceImpl implements IUserService {
     @Override
     public UserResponse addUser(UserRequest userRequest) {
         User newUser = mapper.toEntity(userRequest);
+        if(userRequest.getUserProfile() != null){
+            newUser.getUserProfile().setUser(newUser);
+        }
         userRepository.save(newUser);
         return mapper.toResponse(newUser);
     }
@@ -82,19 +81,19 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public List<UserResponse> findByUserName(String name){
-        List<User> userList = userRepository.findByName(name);
+        List<User> userList = userRepository.findByUserName(name);
         return responseToList(userList);
     }
 
     @Override
     public List<UserResponse> findByIdGreaterThan(Integer id){
-        List<User> userList = userRepository.findByIdGreaterThan(id);
+        List<User> userList = userRepository.findByUserIdGreaterThan(id);
         return responseToList(userList);
     }
 
     @Override
     public List<UserResponse> findByOrderByName() {
-        List<User> userList = userRepository.findAllByOrderByName();
+        List<User> userList = userRepository.findAllByOrderByUserName();
         return responseToList(userList);
     }
 

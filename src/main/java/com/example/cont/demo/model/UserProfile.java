@@ -3,13 +3,12 @@ package com.example.cont.demo.model;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.hibernate.annotations.Audited;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
-@Table(name = "users")
+@Table(name = "profile")
 @Entity
 @SuperBuilder
 @Getter
@@ -17,16 +16,20 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
-public class User extends BaseEntity{
+public class UserProfile extends BaseEntity{
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer userId;
-    private String userName;
-    private String password;
-    private String email;
+    private Integer profileId;
+    private String firstName;
+    private String lastName;
+    private LocalDate birthDate;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private UserProfile userProfile;
+    @OneToOne
+    @JoinColumn(name = "userId")
+    private User user;
+
+
+
 
 }
