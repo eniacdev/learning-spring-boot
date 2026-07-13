@@ -26,7 +26,7 @@ public class User extends BaseEntity{
     private String password;
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private UserProfile userProfile;
 
 }

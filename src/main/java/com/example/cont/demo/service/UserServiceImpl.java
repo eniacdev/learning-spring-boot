@@ -3,6 +3,7 @@ package com.example.cont.demo.service;
 import com.example.cont.demo.dto.UserRequest;
 import com.example.cont.demo.dto.UserResponse;
 import com.example.cont.demo.mapper.UserMapper;
+import com.example.cont.demo.mapper.UserProfileMapper;
 import com.example.cont.demo.model.User;
 import com.example.cont.demo.repository.IUserRepository;
 import org.springframework.stereotype.Service;
@@ -15,20 +16,22 @@ import java.util.Optional;
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
-    private final UserMapper mapper;
+    private final UserMapper userMapper;
+    private final UserProfileMapper profileMapper;
 
-    public UserServiceImpl(IUserRepository userRepository, UserMapper mapper){
+    public UserServiceImpl(IUserRepository userRepository, UserMapper userMapper, UserProfileMapper profileMapper){
         this.userRepository = userRepository;
-        this.mapper = mapper;
+        this.userMapper = userMapper;
+        this.profileMapper = profileMapper;
     }
 
     private List<UserResponse> responseToList(List<User> userList){
-        List<UserResponse> userDtoList = new ArrayList<>();
         if (userList.isEmpty()){
             throw new RuntimeException("The list must not be empty.");
         }
+        List<UserResponse> userDtoList = new ArrayList<>();
         for (User user : userList){
-            userDtoList.add(mapper.toResponseList(user));
+            userDtoList.add(userMapper.toResponseList(user));
         }
         return userDtoList;
     }
@@ -41,18 +44,18 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserResponse addUser(UserRequest userRequest) {
-        User newUser = mapper.toEntity(userRequest);
-        if(userRequest.getUserProfile() != null){
+        User newUser = userMapper.toEntity(userRequest);
+        if (userRequest.getUserProfile() != null){
             newUser.getUserProfile().setUser(newUser);
         }
         userRepository.save(newUser);
-        return mapper.toResponse(newUser);
+        return userMapper.toResponse(newUser);
     }
 
     @Override
     public Boolean deleteUser(Integer id) {
         Optional<User> optional = userRepository.findById(id);
-        if(optional.isPresent()){
+        if (optional.isPresent()){
             userRepository.deleteById(id);
             return true;
         }
@@ -61,22 +64,20 @@ public class UserServiceImpl implements IUserService {
 
     @Override
     public UserResponse userFindById(Integer id) {
-        Optional<User> optional = userRepository.findById(id);
-        if(optional.isPresent()){
-            User user = optional.get();
-            return mapper.toResponse(user);
-        }
-        throw new RuntimeException("No users were found associated with the requested id value.");
+        User user = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("No users were found associated with the requested id value."));
+        return userMapper.toResponse(user);
     }
 
     @Override
     public UserResponse updateUserById(UserRequest newUser, Integer id){
-        Optional<User> dbUser = userRepository.findById(id);
-        if (dbUser.isPresent()){
-            mapper.updateEntity(newUser, dbUser.get());
-            return mapper.toResponse(userRepository.save(dbUser.get()));
-        }
-        throw new RuntimeException("User not found.");
+        User dbUser = userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("User is not found"));
+       userMapper.updateEntity(newUser, dbUser);
+       if (newUser.getUserProfile() != null) {
+           profileMapper.updateEntity(newUser.getUserProfile(), dbUser.getUserProfile());
+       }
+       return userMapper.toResponse(userRepository.save(dbUser));
     }
 
     @Override

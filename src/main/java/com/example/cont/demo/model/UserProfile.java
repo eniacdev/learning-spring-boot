@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
 public class UserProfile extends BaseEntity{
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer profileId;
@@ -25,11 +24,7 @@ public class UserProfile extends BaseEntity{
     private String lastName;
     private LocalDate birthDate;
 
-    @OneToOne
+    @OneToOne()
     @JoinColumn(name = "userId")
     private User user;
-
-
-
-
 }
