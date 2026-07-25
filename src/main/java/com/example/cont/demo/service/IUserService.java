@@ -16,4 +16,6 @@ public interface IUserService {
     public List<UserResponse> findByUserName(String name);
     public List<UserResponse> findByIdGreaterThan(Integer id);
     public List<UserResponse> findByOrderByName();
+    public List<UserResponse> findAllUser();
+    public List<String> findAllUserName();
 }

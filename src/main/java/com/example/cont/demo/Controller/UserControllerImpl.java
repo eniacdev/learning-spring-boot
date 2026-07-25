@@ -69,4 +69,16 @@ public class UserControllerImpl implements IUserController{
         return ResponseEntity.ok().body(userService.findByOrderByName());
     }
 
+    @GetMapping(ApiPath.FIND_ALL)
+    @Override
+    public ResponseEntity<List<UserResponse>> findAllUser() {
+        return ResponseEntity.status(HttpStatus.FOUND).body(userService.findAllUser());
+    }
+
+    @GetMapping(ApiPath.FIND_ALL_USERNAME)
+    @Override
+    public ResponseEntity<List<String>> findAllUserName() {
+        return ResponseEntity.status(HttpStatus.FOUND).body(userService.findAllUserName());
+    }
+
 }

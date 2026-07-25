@@ -98,5 +98,16 @@ public class UserServiceImpl implements IUserService {
         return responseToList(userList);
     }
 
+    @Override
+    public List<UserResponse> findAllUser() {
+        List<User> userList = userRepository.findAllUser();
+        return responseToList(userList);
+    }
+
+    @Override
+    public List<String> findAllUserName() {
+        return userRepository.findAllUserName();
+    }
+
 
 }
