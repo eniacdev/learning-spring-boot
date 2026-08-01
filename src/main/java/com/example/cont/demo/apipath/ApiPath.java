@@ -14,5 +14,6 @@ public final class ApiPath {
     public final static String CREATE_USER=BASE+"/create";
     public final static String FIND_ALL=BASE+"/find-all";
     public final static String FIND_ALL_USERNAME=BASE+"/find-all-username";
+    public final static String TEST=BASE+"/test";
 
 }

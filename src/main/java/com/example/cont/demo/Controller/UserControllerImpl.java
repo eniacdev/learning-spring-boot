@@ -4,21 +4,25 @@ import com.example.cont.demo.apipath.ApiPath;
 import com.example.cont.demo.dto.UserRequest;
 import com.example.cont.demo.dto.UserResponse;
 import com.example.cont.demo.model.User;
+import com.example.cont.demo.repository.IUserRepository;
 import com.example.cont.demo.service.IUserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 //@RequestMapping("/user")
 public class UserControllerImpl implements IUserController{
 
     private final IUserService userService;
+    private final IUserRepository userRepository;
 
-    public UserControllerImpl(IUserService userService){
+    public UserControllerImpl(IUserService userService, IUserRepository userRepository){
         this.userService = userService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -79,6 +83,12 @@ public class UserControllerImpl implements IUserController{
     @Override
     public ResponseEntity<List<String>> findAllUserName() {
         return ResponseEntity.status(HttpStatus.FOUND).body(userService.findAllUserName());
+    }
+
+    @GetMapping(ApiPath.TEST)
+    public List<User> testMethod(@RequestParam String name) {
+        List<User> users = userRepository.findByUserNameContaining(name);
+        return users;
     }
 
 }

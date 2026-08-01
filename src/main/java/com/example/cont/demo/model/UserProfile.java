@@ -1,5 +1,6 @@
 package com.example.cont.demo.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -24,7 +25,8 @@ public class UserProfile extends BaseEntity{
     private String lastName;
     private LocalDate birthDate;
 
-    @OneToOne()
+    @OneToOne
     @JoinColumn(name = "userId")
+    @JsonIgnore
     private User user;
 }
